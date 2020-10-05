@@ -1,10 +1,14 @@
 # Copyright (c) Facebook, Inc. and its affiliates.
 import argparse
+import contextlib
 import itertools
+import json
 import platform
 import random
 import socket
+import tempfile
 import unittest
+from typing import Callable, List, Optional
 
 import torch
 
@@ -73,6 +77,17 @@ def compare_state_dicts(a, b):
     return same
 
 
+@contextlib.contextmanager
+def make_temp_dir():
+    temp_dir = tempfile.TemporaryDirectory()
+    try:
+        yield temp_dir.name
+    finally:
+        # Don't clean up on Windows, as it always results in an error
+        if "Windows" not in platform.system():
+            temp_dir.cleanup()
+
+
 def build_random_sample_list():
     from mmf.common.sample import Sample, SampleList
 
@@ -122,3 +137,47 @@ class SimpleModel(torch.nn.Module):
 def assertModulesEqual(mod1, mod2):
     for p1, p2 in itertools.zip_longest(mod1.parameters(), mod2.parameters()):
         return p1.equal(p2)
+
+
+def search_log(log_file: str, search_condition: Optional[List[Callable]] = None):
+    """Searches a log file for a particular search conditions which can be list
+    of functions and returns it back
+
+    Args:
+        log_file (str): Log file in which search needs to be performed
+        search_condition (List[Callable], optional): Search conditions in form of list.
+            Each corresponding to a function to test a condition. Defaults to None.
+
+    Returns:
+        JSONObject: Json representation of the search line
+
+    Throws:
+        AssertionError: If no log line is found meeting the conditions
+    """
+    if search_condition is None:
+        search_condition = {}
+
+    lines = []
+
+    with open(log_file) as f:
+        lines = f.readlines()
+
+    filtered_line = None
+    for line in lines:
+        line = line.strip()
+        if "progress" not in line:
+            continue
+        info_index = line.find(" : ")
+        line = line[info_index + 3 :]
+        res = json.loads(line)
+
+        meets_condition = True
+        for condition_fn in search_condition:
+            meets_condition = meets_condition and condition_fn(res)
+
+        if meets_condition:
+            filtered_line = res
+            break
+
+    assert filtered_line is not None, "No match for search condition in log file"
+    return filtered_line

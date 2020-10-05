@@ -1,0 +1,5 @@
+model_config:
+  simple:
+    in_dim: 4
+    hidden_dim: 10
+    out_dim: 10
