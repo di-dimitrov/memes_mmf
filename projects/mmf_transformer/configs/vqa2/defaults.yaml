@@ -17,7 +17,7 @@ dataset_config:
             params:
               do_lower_case: true
           mask_probability: 0
-          max_seq_length: 64
+          max_seq_length: 128
 
 optimizer:
   type: adam_w
@@ -26,9 +26,9 @@ optimizer:
     eps: 1e-8
 
 scheduler:
-  type: warmup_linear
+  type: warmup_cosine
   params:
-    num_warmup_steps: 6000
+    num_warmup_steps: 2000
     num_training_steps: ${training.max_updates}
 
 evaluation:
@@ -36,9 +36,9 @@ evaluation:
   - vqa_accuracy
 
 training:
-  batch_size: 480
+  batch_size: 64
   lr_scheduler: true
-  max_updates: 11000
+  max_updates: 200000
   early_stop:
     criteria: vqa2/vqa_accuracy
     minimize: false

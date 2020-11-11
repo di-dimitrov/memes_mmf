@@ -8,25 +8,18 @@ dataset_config:
       zoo_requirements:
       - coco.defaults
       - vqa2.defaults
-      images:
-        train:
-        - coco/defaults/images/train2014
-        val:
-        - coco/defaults/images/val2014
-        test:
-        - coco/defaults/images/test2015
       features:
         train:
-        - coco/defaults/features/trainval2014.lmdb
+        - coco/defaults/features/coco_train2017.lmdb
         val:
-        - coco/defaults/features/trainval2014.lmdb
+        - coco/defaults/features/coco_val2017.lmdb
         test:
         - coco/defaults/features/test2015.lmdb
       annotations:
         train:
-        - vqa2/defaults/annotations/imdb_train2014.npy
+        - vqa2/defaults/annotations/imdb_train2017.npy
         val:
-        - vqa2/defaults/annotations/imdb_val2014.npy
+        - vqa2/defaults/annotations/imdb_val2017.npy
         test:
         - vqa2/defaults/annotations/imdb_test2015.npy
       max_features: 100
