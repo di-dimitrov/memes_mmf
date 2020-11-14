@@ -12,7 +12,11 @@ from mmf.models.transformers.base import (
 from mmf.utils.build import build_encoder
 from omegaconf import OmegaConf
 from torch import Tensor, nn
-from transformers.modeling_bert import BertPooler, BertPredictionHeadTransform
+from transformers.modeling_bert import (
+    BertOnlyMLMHead,
+    BertPooler,
+    BertPredictionHeadTransform,
+)
 
 
 @registry.register_model("mmf_transformer")
@@ -20,6 +24,7 @@ class MMFTransformer(BaseTransformer):
     def __init__(self, config: BaseTransformerConfigType, *args, **kwargs):
         super().__init__(config)
         self.num_labels = self.config.num_labels
+        self.training_head_type = self.config.training_head_type
         self.modality_keys: List = []
         self.modality_type: List = []
         self.modality_segments: List = []
@@ -69,12 +74,20 @@ class MMFTransformer(BaseTransformer):
         hidden output to classification labels.
         """
         transformer_config = self.backend.get_config()
-        self.pooler = BertPooler(transformer_config)
-        self.classifier = nn.Sequential(
-            nn.Dropout(transformer_config.hidden_dropout_prob),
-            BertPredictionHeadTransform(transformer_config),
-            nn.Linear(transformer_config.hidden_size, self.config.num_labels),
-        )
+        if self.config.training_head_type == "classification":
+            self.pooler = BertPooler(transformer_config)
+            self.classifier = nn.Sequential(
+                nn.Dropout(transformer_config.hidden_dropout_prob),
+                BertPredictionHeadTransform(transformer_config),
+                nn.Linear(transformer_config.hidden_size, self.config.num_labels),
+            )
+        elif self.config.training_head_type == "pretraining":
+            self.cls = BertOnlyMLMHead(transformer_config)
+            self.vocab_size = transformer_config.vocab_size
+
+    def build_losses(self):
+        if self.config.training_head_type == "pretraining":
+            self.ce_loss = nn.CrossEntropyLoss(ignore_index=-1)
 
     def preprocess_sample(self, sample_list: Dict[str, Tensor]) -> BaseTransformerInput:
         """Preprocess the sample list elements and form a BaseTransformerInput
@@ -154,34 +167,86 @@ class MMFTransformer(BaseTransformer):
                         dtype=torch.long,
                         device=input_ids[modality].device,
                     )
+        
+        masked_lm_labels: Dict[str, Tens r] = {}
+        for idx, modality in enumerate(self.modality_keys):
+            if self.modality_type[idx] == "text" and "lm_label_ids" in sample_list:
+                if sample_list["lm_label_ids"].dim() > 2:
+                    masked_lm_labels[modality] = sample_list["lm_label_ids"][:, idx]
+                else:
+                    masked_lm_labels[modality] = sample_list["lm_label_ids"]
+            else:
+                masked_lm_labels[modality] = torch.zeros(
+                    input_ids[modality].size()[:2],
+                    dtype=torch.long,
+                    device=input_ids[modality].device,
+                ).fill(-1)
 
-        return BaseTransformerInput(input_ids, position_ids, segment_ids, masks)
+        return BaseTransformerInput(
+            input_ids, position_ids, segment_ids, masks, masked_lm_labels
+        )
 
     def forward(self, sample_list: Dict[str, Tensor]) -> Dict[str, Tensor]:
         # Sample preprocess
-        output = self.preprocess_sample(sample_list)
+        processed_sample_list = self.preprocess_sample(sample_list)
 
         # Arrange masks in a list
         masks = []
         for modality in self.modality_keys:
-            masks.append(output.masks[modality])
+            masks.append(processed_sample_list.masks[modality])
 
         # Call transformer backend
-        sequence_output, _ = self.backend(
-            output.input_ids, output.position_ids, output.segment_ids, masks
+        sequence_output, encoded_layers = self.backend(
+            processed_sample_list.input_ids, 
+            processed_sample_list.position_ids, 
+            processed_sample_lis.segment_ids, 
+            masks
         )
 
         # Transformer Heads
-        pooled_output = self.pooler(sequence_output)
-        head_output = self.classifier(pooled_output)
-
+        output_dict = {}
+        if self.training_head_type == "classification":
+            pooled_output = self.pooler(sequence_output)
+            prediction = self.classifier(pooled_output)
+            output_dict = self.postprocess_output(prediction, processed_sample_list)
+        elif not torch.jit.is_scripting() and self.training_head_type == "pretraining":
+            if not torch.jit.is_scripting():
+                prediction_score = self.cls(sequence_output)
+                output_dict = self.postprocess_output(
+                    prediction_score, processed_sample_list
+                )
+            else:
+                raise AssertionError("Torchscript is not supported for pretraining mode in MMFT.")
+        
         # Postprocess outputs
-        return self.postprocess_output(head_output)
+        return output_dict
 
-    def postprocess_output(self, output: Tensor) -> Dict[str, Tensor]:
+    def postprocess_output(
+            self, prediction: Tensor, processed_sample_list: BaseTransformerInput
+    ) -> Dict[str, Tensor]:
         """Postprocess the output from the classifier head and reshape it.
         This will be used to calculate losses and metrics in mmf.
         """
         output_dict = {}
-        output_dict["scores"] = output.contiguous().view(-1, self.num_labels)
+        if self.training_head_type == "classification":
+            output_dict["scores"] = prediction.contiguous().view(-1, self.num_labels)
+        elif self.training_head_type == "pretraining":
+            if not torch.jit.is_scripting():
+                output_dict["logits"] = prediction
+                masked_labels = []
+                for modality in self.modality_keys:
+                    masked_labels.append(
+                        processed_sample_list.masked_lm_labels[modality]
+                    )
+                masked_labels = torch.cat(masked_labels, dim=-1)
+                masked_lm_loss = self.ce_loss(
+                    prediction.contiguous().view(-1, self.vocab_size),
+                    masked_labels.contiguous().view(-1),
+                )
+                output_dict["losses"] = {}
+                output_dict["losses"]["masked_lm_loss"] = masked_lm_loss
+            else:
+                raise AssertionError(
+                    "MMF Transformer pretraining mode cannot be scripted"
+                )
         return output_dict
