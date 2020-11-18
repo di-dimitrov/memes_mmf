@@ -1,0 +1,47 @@
+includes:
+- ../../../../mmf/configs/datasets/coco2017/masked.yaml
+- ../../../../mmf/configs/datasets/flickr30k/masked.yaml
+- ../../../../mmf/configs/datasets/localized_narratives/masked.yaml
+
+model_config:
+  mmf_transformer:
+    training_head_type: pretraining
+    num_labels: 3129
+    direct_features_input: true
+    modalities:
+    - type: text
+      key: caption
+      segment_id: 0
+    - type: image
+      key: image
+      embedding_dim: 2048
+      position_dim: 1
+      segment_id: 1
+      layer_norm_eps: 1e-12
+      hidden_dropout_prob: 0.12
+
+optimizer:
+  type: adam_w
+  params:
+    lr: 5e-5
+    eps: 1e-8
+
+scheduler:
+  type: warmup_cosine
+  params:
+    num_warmup_steps: 1000
+    num_training_steps: 11000
+
+training:
+  batch_size: 64
+  lr_scheduler: true
+  num_workers: 5
+  # Don't forget to update schedule_attributes if you update this
+  max_updates: 200000
+  find_unused_parameters: true
+
+checkpoint:
+  pretrained_state_mapping:
+    pooler: pooler
+    backend.transformer: backend.transformer
+    backend.embeddings: backend.embeddings

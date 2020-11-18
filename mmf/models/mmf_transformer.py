@@ -168,7 +168,7 @@ class MMFTransformer(BaseTransformer):
                         device=input_ids[modality].device,
                     )
         
-        masked_lm_labels: Dict[str, Tens r] = {}
+        masked_lm_labels: Dict[str, Tensor] = {}
         for idx, modality in enumerate(self.modality_keys):
             if self.modality_type[idx] == "text" and "lm_label_ids" in sample_list:
                 if sample_list["lm_label_ids"].dim() > 2:
@@ -180,7 +180,7 @@ class MMFTransformer(BaseTransformer):
                     input_ids[modality].size()[:2],
                     dtype=torch.long,
                     device=input_ids[modality].device,
-                ).fill(-1)
+                ).fill_(-1)
 
         return BaseTransformerInput(
             input_ids, position_ids, segment_ids, masks, masked_lm_labels
@@ -199,7 +199,7 @@ class MMFTransformer(BaseTransformer):
         sequence_output, encoded_layers = self.backend(
             processed_sample_list.input_ids, 
             processed_sample_list.position_ids, 
-            processed_sample_lis.segment_ids, 
+            processed_sample_list.segment_ids, 
             masks
         )
 
