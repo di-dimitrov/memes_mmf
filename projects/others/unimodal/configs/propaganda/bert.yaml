@@ -13,4 +13,4 @@ model_config:
         num_layers: 2
 
 training:
-  batch_size: 128
+  batch_size: 16
