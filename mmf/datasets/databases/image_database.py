@@ -202,4 +202,5 @@ class ImageDatabase(torch.utils.data.Dataset):
             "image_name",
             "img",
             "image_id",
+            "image",
         ]
