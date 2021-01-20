@@ -44,3 +44,12 @@ class PropagandaBuilder(MMFDatasetBuilder):
     @classmethod
     def config_path(self):
         return "mmf/configs/datasets/propaganda/defaults.yaml"
+    def update_registry_for_model(self, config):
+        if hasattr(self.dataset, "text_processor") and hasattr(
+            self.dataset.text_processor, "get_vocab_size"
+        ):
+            registry.register(
+                self.dataset_name + "_text_vocab_size",
+                self.dataset.text_processor.get_vocab_size(),
+            )
+        registry.register(self.dataset_name + "_num_final_outputs", 22)

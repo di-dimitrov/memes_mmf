@@ -31,7 +31,7 @@ training:
   lr_scheduler: true
   max_updates: 22000
   early_stop:
-    criteria: propaganda/roc_auc
+    criteria: propaganda/multilabel_micro_f1
     minimize: false
 
 checkpoint:

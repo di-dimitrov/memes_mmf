@@ -1,12 +1,15 @@
+includes:
+- configs/datasets/propaganda/with_features.yaml
+
 model_config:
-  vilbert:
+  visual_bert:
     training_head_type: classification
     num_labels: 22
     losses:
-    - logit_bce
+    - type: logit_bce
 
 dataset_config:
-  propaganda:
+  hateful_memes:
     return_features_info: true
     processors:
       text_processor:
@@ -22,7 +25,7 @@ dataset_config:
 optimizer:
   type: adam_w
   params:
-    lr: 1e-5
+    lr: 5e-5
     eps: 1e-8
 
 scheduler:
@@ -37,9 +40,9 @@ evaluation:
   - multilabel_macro_f1
 
 training:
-  batch_size: 32
+  batch_size: 16
   lr_scheduler: true
-  max_updates: 22000
+  max_updates: 18000
   find_unused_parameters: true
   early_stop:
     criteria: propaganda/multilabel_micro_f1

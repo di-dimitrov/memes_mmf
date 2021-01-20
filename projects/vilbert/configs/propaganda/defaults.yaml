@@ -51,7 +51,7 @@ training:
   max_updates: 22000
   find_unused_parameters: true
   early_stop:
-    criteria: propaganda/roc_auc
+    criteria: propaganda/multilabel_micro_f1
     minimize: false
 
 checkpoint:

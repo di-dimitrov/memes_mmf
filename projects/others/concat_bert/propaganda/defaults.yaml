@@ -1,6 +1,15 @@
 includes:
-- ./classification.yaml
 - configs/datasets/propaganda/bert.yaml
+
+model_config:
+  concat_bert:
+    num_labels: 22
+    classifier:
+      type: mlp
+      params:
+        num_layers: 2
+    losses:
+    - type: logit_bce
 
 scheduler:
   type: warmup_linear
@@ -15,18 +24,18 @@ optimizer:
     eps: 1e-8
 
 evaluation:
-    metrics:
-    - multilabel_micro_f1
-    - multilabel_macro_f1
+  metrics:
+  - multilabel_micro_f1
+  - multilabel_macro_f1
 
 training:
   batch_size: 16
   lr_scheduler: true
-  max_updates: 15000
+  max_updates: 18000
   early_stop:
     criteria: propaganda/multilabel_micro_f1
     minimize: false
 
 checkpoint:
   pretrained_state_mapping:
-    bert: bert
+    base: base
