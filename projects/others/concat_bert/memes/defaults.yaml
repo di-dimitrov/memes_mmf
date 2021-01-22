@@ -3,13 +3,13 @@ includes:
 
 model_config:
   concat_bert:
-    num_labels: 22
+    num_labels: 2
     classifier:
       type: mlp
       params:
         num_layers: 2
     losses:
-    - type: logit_bce
+    - type: cross_entropy
 
 scheduler:
   type: warmup_linear
@@ -25,15 +25,18 @@ optimizer:
 
 evaluation:
   metrics:
-  - multilabel_micro_f1
-  - multilabel_macro_f1
+    - accuracy
+    - precision
+    - recall
+    - binary_f1
+    - roc_auc
 
 training:
-  batch_size: 16
+  batch_size: 8
   lr_scheduler: true
-  max_updates: 18000
+  max_updates: 3000
   early_stop:
-    criteria: memes/multilabel_micro_f1
+    criteria: memes/binary_f1
     minimize: false
 
 checkpoint:

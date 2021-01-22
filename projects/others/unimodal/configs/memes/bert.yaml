@@ -5,7 +5,7 @@ includes:
 
 model_config:
   unimodal_text:
-    num_labels: 22
+    num_labels: 2
     classifier:
       type: mlp
       params:
@@ -13,4 +13,4 @@ model_config:
         num_layers: 2
 
 training:
-  batch_size: 16
+  batch_size: 8

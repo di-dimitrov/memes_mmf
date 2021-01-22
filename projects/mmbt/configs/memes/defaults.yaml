@@ -1,15 +1,6 @@
 includes:
+- ./classification.yaml
 - configs/datasets/memes/bert.yaml
-
-model_config:
-  concat_bert:
-    num_labels: 22
-    classifier:
-      type: mlp
-      params:
-        num_layers: 2
-    losses:
-    - type: logit_bce
 
 scheduler:
   type: warmup_linear
@@ -24,18 +15,21 @@ optimizer:
     eps: 1e-8
 
 evaluation:
-  metrics:
-  - multilabel_micro_f1
-  - multilabel_macro_f1
+    metrics:
+    - accuracy
+    - precision
+    - recall
+    - binary_f1
+    - roc_auc
 
 training:
-  batch_size: 16
+  batch_size: 8
   lr_scheduler: true
-  max_updates: 18000
+  max_updates: 3000
   early_stop:
-    criteria: memes/multilabel_micro_f1
+    criteria: memes/binary_f1
     minimize: false
 
 checkpoint:
   pretrained_state_mapping:
-    base: base
+    bert: bert

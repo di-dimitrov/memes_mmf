@@ -1,6 +1,6 @@
 model_config:
   unimodal_text:
-    num_labels: 22
+    num_labels: 2
     classifier:
       type: mlp
       params:
@@ -25,13 +25,16 @@ evaluation:
   metrics:
   - multilabel_micro_f1
   - multilabel_macro_f1
+  - accuracy
+  - precision
+  - recall
 
 training:
-  batch_size: 32
+  batch_size: 8
   lr_scheduler: true
-  max_updates: 22000
+  max_updates: 5000
   early_stop:
-    criteria: propaganda/multilabel_micro_f1
+    criteria: memes/accuracy
     minimize: false
 
 checkpoint:

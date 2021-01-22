@@ -1,0 +1,4 @@
+dataset_config:
+  memes:
+    use_binary: false
+    use_non_binary: true
