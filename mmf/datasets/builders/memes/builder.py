@@ -9,7 +9,7 @@ from collections import Counter
 from mmf.common.registry import registry
 from mmf.datasets.base_dataset_builder import BaseDatasetBuilder
 from mmf.datasets.mmf_dataset_builder import MMFDatasetBuilder
-from mmf.datasets.builders.propaganda.dataset import (
+from mmf.datasets.builders.memes.dataset import (
 MemesBinaryDataset,
 MemesNonBinaryDataset
 )
