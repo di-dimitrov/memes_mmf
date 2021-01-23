@@ -50,7 +50,7 @@ class MemesBinaryDataset(MMFDataset):
         current_sample.id = torch.tensor(id, dtype=torch.int)
 
         
-        if sample_info == 'not harmful':
+        if sample_info['labels'][0] == 'not harmful':
             label = torch.tensor(0, dtype=torch.long)
         else:
             label = torch.tensor(1, dtype=torch.long)
@@ -94,9 +94,9 @@ class MemesNonBinaryDataset(MMFDataset):
             id = int(sample_info['id'].split("covid_memes_")[1])
         current_sample.id = torch.tensor(id, dtype=torch.int)
 
-        if sample_info == 'not harmful':
+        if sample_info['labels'][0] == 'not harmful':
             label = torch.tensor(0, dtype=torch.long)
-        elif  sample_info == 'somewhat harmful':
+        elif  sample_info['labels'][0] == 'somewhat harmful':
             label = torch.tensor(1, dtype=torch.long)
         else: 
             label = torch.tensor(2, dtype=torch.long)
