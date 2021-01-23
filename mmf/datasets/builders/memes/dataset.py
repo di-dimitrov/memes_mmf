@@ -37,7 +37,6 @@ class MemesBinaryDataset(MMFDataset):
         sample_info = self.annotation_db[idx]
         current_sample = Sample()
 
-        print(sample_info["text"])
         processed_text = self.text_processor({"text": sample_info["text"]})
         current_sample.text = processed_text["text"]
         
