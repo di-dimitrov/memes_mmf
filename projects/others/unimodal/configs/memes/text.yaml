@@ -1,11 +1,9 @@
 model_config:
   unimodal_text:
-    num_labels: 2
     classifier:
       type: mlp
       params:
         num_layers: 2
-        out_dim: 22
     losses:
     - type: cross_entropy
 
