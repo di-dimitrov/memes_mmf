@@ -18,6 +18,7 @@ from mmf.utils.text import VocabFromText, tokenize
 class MemesBinaryDataset(MMFDataset):
     def __init__(self, config, *args, dataset_name="memes", **kwargs):
         super().__init__(dataset_name, config, *args, **kwargs)
+        print(config)
         assert (
             self._use_binary
         )
@@ -62,6 +63,7 @@ class MemesBinaryDataset(MMFDataset):
 class MemesNonBinaryDataset(MMFDataset):
     def __init__(self, config, *args, dataset_name="memes", **kwargs):
         super().__init__(dataset_name, config, *args, **kwargs)
+        print(config)
         assert (
             self._use_non_binary
         )
