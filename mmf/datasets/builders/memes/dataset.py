@@ -20,7 +20,7 @@ class MemesBinaryDataset(MMFDataset):
         super().__init__(dataset_name, config, *args, **kwargs)
         print(config)
         assert (
-            self._use_binary
+            config.use_binary
         )
         
         self._data_dir = os.path.join(get_mmf_root(), config.data_dir)
@@ -65,7 +65,7 @@ class MemesNonBinaryDataset(MMFDataset):
         super().__init__(dataset_name, config, *args, **kwargs)
         print(config)
         assert (
-            self._use_non_binary
+            config.use_non_binary
         )
         
         self._data_dir = os.path.join(get_mmf_root(), config.data_dir)
