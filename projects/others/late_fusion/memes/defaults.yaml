@@ -2,9 +2,12 @@ includes:
 - configs/datasets/memes/bert.yaml
 
 model_config:
-  concat_bert:
-    num_labels: 2
-    classifier:
+  late_fusion:
+    modal_classifier:
+      type: mlp
+      params:
+        num_layers: 2
+    text_classifier:
       type: mlp
       params:
         num_layers: 2
@@ -20,21 +23,21 @@ scheduler:
 optimizer:
   type: adam_w
   params:
-    lr: 1e-5
+    lr: 5e-5
     eps: 1e-8
 
 evaluation:
   metrics:
-    - accuracy
-    - binary_f1
-    - roc_auc
+  - accuracy
+  - binary_f1
+  - roc_auc
 
 training:
-  batch_size: 8
+  batch_size: 64
   lr_scheduler: true
-  max_updates: 3000
+  max_updates: 22000
   early_stop:
-    criteria: memes/binary_f1
+    criteria: memes/roc_auc
     minimize: false
 
 checkpoint:

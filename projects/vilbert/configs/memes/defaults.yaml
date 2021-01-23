@@ -4,9 +4,9 @@ includes:
 model_config:
   vilbert:
     training_head_type: classification
-    num_labels: 22
+    num_labels: 2
     losses:
-    - logit_bce
+    - cross_entropy
 
 dataset_config:
   memes:
@@ -42,16 +42,16 @@ scheduler:
 
 evaluation:
   metrics:
-  - multilabel_micro_f1
-  - multilabel_macro_f1
-
+  - accuracy
+  - binary_f1
+  - roc_auc
 training:
   batch_size: 32
   lr_scheduler: true
   max_updates: 22000
   find_unused_parameters: true
   early_stop:
-    criteria: memes/multilabel_micro_f1
+    criteria: memes/binary_f1
     minimize: false
 
 checkpoint:

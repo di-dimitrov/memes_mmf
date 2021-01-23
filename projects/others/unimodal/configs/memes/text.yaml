@@ -24,8 +24,6 @@ optimizer:
 evaluation:
   metrics:
     - accuracy
-    - precision
-    - recall
     - binary_f1
     - roc_auc
 
