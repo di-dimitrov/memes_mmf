@@ -5,6 +5,8 @@ dataset_config:
     fast_read: false
     use_binary: true
     use_non_binary: false
+    use_images: true
+    use_features : false
     images:
       train:
       - memes/defaults/images/
