@@ -41,7 +41,7 @@ class MemesTgtBuilder(MMFDatasetBuilder):
 
         config = config
 
-        if self._use_features:
+        if config.use_features:
             self.dataset_class = MemesTgtFeatureDataset
 
         
