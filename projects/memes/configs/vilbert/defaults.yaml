@@ -3,7 +3,7 @@ model_config:
     training_head_type: classification
     num_labels: 3
     losses:
-    - mean_squared_error
+    - cross_entropy
 
 dataset_config:
   memes:

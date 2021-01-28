@@ -4,7 +4,7 @@ includes:
 model_config:
   vilbert:
     training_head_type: classification
-    num_labels: 2
+    num_labels: 3
     losses:
     - cross_entropy
 

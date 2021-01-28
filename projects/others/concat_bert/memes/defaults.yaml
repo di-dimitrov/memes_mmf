@@ -3,14 +3,14 @@ includes:
 
 model_config:
   concat_bert:
-    num_labels: 2
+    num_labels: 3
     classifier:
       type: mlp
       params:
         num_layers: 2
         output_dim: 3
     losses:
-    - type: mean_squared_error
+    - type: cross_entropy
 
 scheduler:
   type: warmup_linear
