@@ -1033,7 +1033,8 @@ class MMAEMacro(BaseMetric):
         self.name = "mmae_tgt"
         
     def calculate(self, sample_list, model_output, *args, **kwargs):
-        output = torch.nn.functional.softmax(model_output["scores"], dim=-1)[:, 1]
+        #output = torch.nn.functional.softmax(model_output["scores"], dim=-1)[:, 1]
+        scores = model_output["scores"]
         expected = sample_list["targets"]
         count_dict = {}
         dist_dict = {}
@@ -1072,7 +1073,8 @@ class MMAEMacro(BaseMetric):
         self.name = "mmae"
         
     def calculate(self, sample_list, model_output, *args, **kwargs):
-        output = torch.nn.functional.softmax(model_output["scores"], dim=-1)[:, 1]
+        #output = torch.nn.functional.softmax(model_output["scores"], dim=-1)[:, 1]
+        scores = model_output["scores"]
         expected = sample_list["targets"]
         count_dict = {}
         dist_dict = {}
