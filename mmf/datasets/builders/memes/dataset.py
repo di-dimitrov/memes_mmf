@@ -112,7 +112,6 @@ class MemesDataset(MMFDataset):
         else:
             label = torch.tensor(2, dtype=torch.long)
         current_sample.targets = label
-        current_sample.targets = label
  
         
         current_sample.image = self.image_db[idx]["images"][0]
