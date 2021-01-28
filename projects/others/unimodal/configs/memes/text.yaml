@@ -1,12 +1,12 @@
 model_config:
   unimodal_text:
     classifier:
-      num_labels: 3
+      num_labels: 4
       type: mlp
       params:
         num_layers: 2
     losses:
-    - type: mean_squared_error
+    - type: cross_entropy
 
 scheduler:
   type: warmup_linear
@@ -27,11 +27,12 @@ evaluation:
     - recall_macro
     - precision_macro
     - mae
+    - mmae
 
 training:
   batch_size: 16
   lr_scheduler: true
-  max_updates: 4000
+  max_updates: 3000
   early_stop:
     criteria: memes/macro_f1
     minimize: false

@@ -1,3 +1,6 @@
+includes:
+- configs/datasets/memes/with_features.yaml
+
 model_config:
   vilbert:
     training_head_type: classification
@@ -38,6 +41,7 @@ evaluation:
     - recall_macro
     - precision_macro
     - mae
+    - mmae
 
 training:
   batch_size: 16

@@ -1,10 +1,14 @@
+includes:
+- configs/datasets/memes_tgt/bert.yaml
+
 model_config:
-  unimodal_text:
+  concat_bert:
     num_labels: 4
     classifier:
       type: mlp
       params:
         num_layers: 2
+        output_dim: 4
     losses:
     - type: cross_entropy
 
@@ -17,7 +21,7 @@ scheduler:
 optimizer:
   type: adam_w
   params:
-    lr: 5e-5
+    lr: 1e-5
     eps: 1e-8
 
 evaluation:
@@ -28,13 +32,13 @@ evaluation:
     - precision_macro
     - mae
     - mmae_tgt
-
+    
 training:
-  batch_size: 8
+  batch_size: 16
   lr_scheduler: true
   max_updates: 3000
   early_stop:
-    criteria: memes_tgt/macro_f1
+    criteria: memes_gtg/macro_f1
     minimize: false
 
 checkpoint:

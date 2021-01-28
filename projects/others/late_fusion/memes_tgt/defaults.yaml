@@ -35,6 +35,7 @@ evaluation:
     - recall_macro
     - precision_macro
     - mae
+    - mmae_tgt
 
 training:
   batch_size: 16

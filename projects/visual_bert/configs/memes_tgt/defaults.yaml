@@ -2,11 +2,11 @@ includes:
 - configs/datasets/memes_tgt/with_features.yaml
 
 model_config:
-  vilbert:
+  visual_bert:
     training_head_type: classification
     num_labels: 4
     losses:
-    - cross_entroy
+    - type: cross_entropy
 
 dataset_config:
   memes_tgt:
@@ -25,7 +25,7 @@ dataset_config:
 optimizer:
   type: adam_w
   params:
-    lr: 1e-5
+    lr: 5e-5
     eps: 1e-8
 
 scheduler:
@@ -46,10 +46,10 @@ evaluation:
 training:
   batch_size: 16
   lr_scheduler: true
-  max_updates: 3000
+  max_updates: 18000
   find_unused_parameters: true
   early_stop:
-    criteria: memes_tgt/macro_f1
+    criteria: memes_tgt/binary_f1
     minimize: false
 
 checkpoint:

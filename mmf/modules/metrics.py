@@ -1026,9 +1026,82 @@ class RecallAtPrecisionK(BaseMetric):
 
         return expected.new_tensor(value, dtype=torch.float)
         
+@registry.register_metric("mmae_tgt")
+class MMAEMacro(BaseMetric):
+    def __init__(self, *args, **kwargs):
+        super().__init__(name="mmae_tgt")
+        self.name = "mmae_tgt"
+        
+    def calculate(self, sample_list, model_output, *args, **kwargs):
+        output = torch.nn.functional.softmax(model_output["scores"], dim=-1)[:, 1]
+        expected = sample_list["targets"]
+        count_dict = {}
+        dist_dict = {}
+        count_dict['0'] = 0
+        count_dict['1'] = 0
+        count_dict['2'] = 0
+        count_dict['3'] = 0
+        dist_dict['0'] = 0.0
+        dist_dict['1'] = 0.0
+        dist_dict['2'] = 0.0
+        dist_dict['3'] = 0.0
+        
 
-#@registry.register_metric("mmae")
- 
+        if expected.dim() == 2:
+            expected = expected.argmax(dim=1)
+        output = scores.argmax(dim=-1)
+            if expected.dim() != 1:
+                # Probably one-hot, convert back to class indices array
+                expected = expected.argmax(dim=-1)
+        
+        for i in range(len(expected)):
+            dist_dict[expected[i]] = abs(expected[i] - output[i])
+            count_dict[expected[i]] += 1
+        overall = 0.0
+        for claz in ['0','1','2','3']:
+            class_dist =  1.0 * dist_dict[claz] / count_dict[]
+            overall += class_dist
+        overall /= 4
+        return expected.new_tensor(overall, dtype=torch.float) 
+        
+
+@registry.register_metric("mmae")
+class MMAEMacro(BaseMetric):
+    def __init__(self, *args, **kwargs):
+        super().__init__(name="mmae")
+        self.name = "mmae"
+        
+    def calculate(self, sample_list, model_output, *args, **kwargs):
+        output = torch.nn.functional.softmax(model_output["scores"], dim=-1)[:, 1]
+        expected = sample_list["targets"]
+        count_dict = {}
+        dist_dict = {}
+        count_dict['0'] = 0
+        count_dict['1'] = 0
+        count_dict['2'] = 0
+        dist_dict['0'] = 0.0
+        dist_dict['1'] = 0.0
+        dist_dict['2'] = 0.0
+        
+
+        if expected.dim() == 2:
+            expected = expected.argmax(dim=1)
+        output = scores.argmax(dim=-1)
+            if expected.dim() != 1:
+                # Probably one-hot, convert back to class indices array
+                expected = expected.argmax(dim=-1)
+                
+        for i in range(len(expected)):
+            dist_dict[expected[i]] = abs(expected[i] - output[i])
+            count_dict[expected[i]] += 1
+        overall = 0.0
+        for claz in ['0','1','2']:
+            class_dist =  1.0 * dist_dict[claz] / count_dict[]
+            overall += class_dist
+        overall /= 3
+        return expected.new_tensor(overall, dtype=torch.float) 
+
+
 @registry.register_metric("mae")
 class MAEMacro(BaseMetric):
     def __init__(self, *args, **kwargs):

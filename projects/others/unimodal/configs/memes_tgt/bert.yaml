@@ -5,6 +5,7 @@ includes:
 
 model_config:
   unimodal_text:
+    num_labels: 3
     classifier:
       type: mlp
       params:
