@@ -1050,9 +1050,9 @@ class MMAEMacro(BaseMetric):
         if expected.dim() == 2:
             expected = expected.argmax(dim=1)
         output = scores.argmax(dim=-1)
-            if expected.dim() != 1:
-                # Probably one-hot, convert back to class indices array
-                expected = expected.argmax(dim=-1)
+        if expected.dim() != 1:
+            # Probably one-hot, convert back to class indices array
+            expected = expected.argmax(dim=-1)
         
         for i in range(len(expected)):
             dist_dict[expected[i]] = abs(expected[i] - output[i])
@@ -1087,9 +1087,9 @@ class MMAEMacro(BaseMetric):
         if expected.dim() == 2:
             expected = expected.argmax(dim=1)
         output = scores.argmax(dim=-1)
-            if expected.dim() != 1:
-                # Probably one-hot, convert back to class indices array
-                expected = expected.argmax(dim=-1)
+        if expected.dim() != 1:
+            # Probably one-hot, convert back to class indices array
+            expected = expected.argmax(dim=-1)
                 
         for i in range(len(expected)):
             dist_dict[expected[i]] = abs(expected[i] - output[i])
