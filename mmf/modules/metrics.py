@@ -1027,11 +1027,11 @@ class RecallAtPrecisionK(BaseMetric):
         return expected.new_tensor(value, dtype=torch.float)
         
 
-@registry.register_metric("mmae")
+#@registry.register_metric("mmae")
  
 @registry.register_metric("mae")
 class MAEMacro(BaseMetric):
-    def __init__(self, p_threshold, *args, **kwargs):
+    def __init__(self, *args, **kwargs):
         super().__init__(name="mae")
         self.name = "mae"
         
@@ -1049,7 +1049,7 @@ class MAEMacro(BaseMetric):
         
 @registry.register_metric("precision_macro")  
 class PrecisionMacro(BaseMetric):
-    def __init__(self, p_threshold, *args, **kwargs):
+    def __init__(self, *args, **kwargs):
         super().__init__(name="precision_macro")
         self.name = "precision_macro"
         
@@ -1068,7 +1068,7 @@ class PrecisionMacro(BaseMetric):
 
 @registry.register_metric("recall_macro")
 class RecallMacro(BaseMetric):
-    def __init__(self, p_threshold, *args, **kwargs):
+    def __init__(self, *args, **kwargs):
         super().__init__(name="recall_macro")
         self.name = "recall_macro"
         
