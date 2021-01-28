@@ -1,7 +1,7 @@
 model_config:
   unimodal_text:
+    num_labels: 3
     classifier:
-      num_labels: 3
       type: mlp
       params:
         num_layers: 2
