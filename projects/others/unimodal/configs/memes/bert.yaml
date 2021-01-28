@@ -5,8 +5,8 @@ includes:
 
 model_config:
   unimodal_text:
+    num_labels: 3
     classifier:
-      num_labels: 3
       type: mlp
       params:
         in_dim: 768
