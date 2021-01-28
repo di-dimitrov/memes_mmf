@@ -24,7 +24,7 @@ class MemesBuilder(MMFDatasetBuilder):
     def __init__(
         self,
         dataset_name="memes",
-        dataset_class=MemesBinaryDataset,
+        dataset_class=MemesDataset,
         *args,
         **kwargs
         ):
