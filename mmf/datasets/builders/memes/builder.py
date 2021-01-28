@@ -11,7 +11,7 @@ from mmf.datasets.base_dataset_builder import BaseDatasetBuilder
 from mmf.datasets.mmf_dataset_builder import MMFDatasetBuilder
 from mmf.datasets.builders.memes.dataset import (
 MemesFeatureDataset,
-MemesDataset
+MemesDataset,
 )
 
 from mmf.utils.general import get_mmf_root
@@ -19,7 +19,7 @@ from mmf.utils.general import get_mmf_root
 logger = logging.getLogger(__name__)
 
 @registry.register_builder("memes")
-class PropagandaBuilder(MMFDatasetBuilder):
+class MemesBuilder(MMFDatasetBuilder):
         # Init should call super().__init__ with the key for the dataset
     def __init__(
         self,

@@ -11,7 +11,7 @@ from mmf.datasets.base_dataset_builder import BaseDatasetBuilder
 from mmf.datasets.mmf_dataset_builder import MMFDatasetBuilder
 from mmf.datasets.builders.memes.dataset import (
 MemesTgtFeatureDataset,
-MemesTgtDataset
+MemesTgtDataset,
 )
 
 from mmf.utils.general import get_mmf_root
