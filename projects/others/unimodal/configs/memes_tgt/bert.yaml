@@ -1,6 +1,6 @@
 includes:
 - ./text.yaml
-- configs/datasets/memes/bert.yaml
+- configs/datasets/memes_tgt/bert.yaml
 - configs/models/unimodal/bert.yaml
 
 model_config:
@@ -12,4 +12,4 @@ model_config:
         num_layers: 2
 
 training:
-  batch_size: 16
+  batch_size: 8

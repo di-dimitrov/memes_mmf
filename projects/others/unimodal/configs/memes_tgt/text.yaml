@@ -1,16 +1,11 @@
-includes:
-- configs/datasets/memes/bert.yaml
-
 model_config:
-  concat_bert:
-    num_labels: 2
+  unimodal_text:
     classifier:
       type: mlp
       params:
         num_layers: 2
-        output_dim: 3
     losses:
-    - type: mean_squared_error
+    - type: cross_entropy
 
 scheduler:
   type: warmup_linear
@@ -21,23 +16,21 @@ scheduler:
 optimizer:
   type: adam_w
   params:
-    lr: 1e-5
+    lr: 5e-5
     eps: 1e-8
 
 evaluation:
   metrics:
     - accuracy
-    - macro_f1
-    - recall_macro
-    - precision_macro
-    - mae
-    
+    - binary_f1
+    - roc_auc
+
 training:
-  batch_size: 16
+  batch_size: 8
   lr_scheduler: true
   max_updates: 3000
   early_stop:
-    criteria: memes/macro_f1
+    criteria: memes_tgt/binary_f1
     minimize: false
 
 checkpoint:

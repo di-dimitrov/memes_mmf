@@ -1,11 +1,12 @@
 model_config:
   unimodal_text:
     classifier:
+      num_labels: 3
       type: mlp
       params:
         num_layers: 2
     losses:
-    - type: cross_entropy
+    - type: mean_squared_error
 
 scheduler:
   type: warmup_linear
@@ -22,15 +23,17 @@ optimizer:
 evaluation:
   metrics:
     - accuracy
-    - binary_f1
-    - roc_auc
+    - macro_f1
+    - recall_macro
+    - precision_macro
+    - mae
 
 training:
-  batch_size: 8
+  batch_size: 16
   lr_scheduler: true
-  max_updates: 3000
+  max_updates: 4000
   early_stop:
-    criteria: memes/binary_f1
+    criteria: memes/macro_f1
     minimize: false
 
 checkpoint:

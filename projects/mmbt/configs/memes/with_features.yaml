@@ -1,7 +1,7 @@
 includes:
 - ./defaults.yaml
 - configs/models/mmbt/with_features.yaml
-- configs/datasets/propaganda/with_features.yaml
+- configs/datasets/memes/with_features.yaml
 
 optimizer:
   type: adam_w

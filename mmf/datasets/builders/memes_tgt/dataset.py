@@ -15,8 +15,8 @@ from mmf.utils.text import VocabFromText, tokenize
 
 
 
-class MemesFeatureDataset(MMFDataset):
-    def __init__(self, config, *args, dataset_name="memes", **kwargs):
+class MemesTgtFeatureDataset(MMFDataset):
+    def __init__(self, config, *args, dataset_name="memes_tgt", **kwargs):
         super().__init__(dataset_name, config, *args, **kwargs)
         print(config)
         assert (
@@ -58,21 +58,24 @@ class MemesFeatureDataset(MMFDataset):
             )
         current_sample.update(features)
 
-        
-        if sample_info['labels'][0] == 'not harmful':
+        if sample_info['labels'][1] == 'individual':
             label = torch.tensor(0, dtype=torch.long)
-        elif sample_info['labels'][0] == 'somewhat harmful':
+        elif sample_info['labels'][1] == 'organization':
             label = torch.tensor(1, dtype=torch.long)
-        else:
+        elif  sample_info['labels'][1] == 'community':
             label = torch.tensor(2, dtype=torch.long)
+        else:
+            label = torch.tensor(3, dtype=torch.long)
         current_sample.targets = label
+        
+        
  
         #current_sample.image = self.image_db[idx]["images"][0]
 
         return current_sample
         
-class MemesDataset(MMFDataset):
-    def __init__(self, config, *args, dataset_name="memes", **kwargs):
+class MemesTgtDataset(MMFDataset):
+    def __init__(self, config, *args, dataset_name="memes_tgt", **kwargs):
         super().__init__(dataset_name, config, *args, **kwargs)
         print(config)
         assert (
@@ -105,13 +108,14 @@ class MemesDataset(MMFDataset):
             id = int(sample_info['id'].split("covid_memes_")[1])
         current_sample.id = torch.tensor(id, dtype=torch.int)
 
-        if sample_info['labels'][0] == 'not harmful':
+        if sample_info['labels'][1] == 'individual':
             label = torch.tensor(0, dtype=torch.long)
-        elif sample_info['labels'][0] == 'somewhat harmful':
+        elif sample_info['labels'][1] == 'organization':
             label = torch.tensor(1, dtype=torch.long)
-        else:
+        elif  sample_info['labels'][1] == 'community':
             label = torch.tensor(2, dtype=torch.long)
-        current_sample.targets = label
+        else:
+            label = torch.tensor(3, dtype=torch.long)
         current_sample.targets = label
  
         

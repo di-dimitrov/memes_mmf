@@ -570,3 +570,14 @@ class CrossEntropyLoss(nn.Module):
 
     def forward(self, sample_list, model_output):
         return self.loss_fn(model_output["scores"], sample_list.targets)
+        
+@registry.register_loss("mean_squared_error")
+class MSE(nn.Module):
+    def __init__(self, params=None):
+        super().__init__()
+        if params is None:
+            params = {}
+        self.loss_fn = nn.MSELoss(**params)
+
+    def forward(self, sample_list, model_output):
+        return self.loss_fn(model_output["scores"], sample_list.targets)

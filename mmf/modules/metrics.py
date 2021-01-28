@@ -54,6 +54,9 @@ from sklearn.metrics import (
     f1_score,
     precision_recall_curve,
     roc_auc_score,
+    recall_score,
+    precision_score,
+    mean_absolute_error,
 )
 
 
@@ -1020,5 +1023,63 @@ class RecallAtPrecisionK(BaseMetric):
             )
         except ValueError:
             value = 0
+
+        return expected.new_tensor(value, dtype=torch.float)
+        
+
+@registry.register_metric("mmae")
+ 
+@registry.register_metric("mae")
+class MAEMacro(BaseMetric):
+    def __init__(self, p_threshold, *args, **kwargs):
+        super().__init__(name="mae")
+        self.name = "mae"
+        
+    def calculate(self, sample_list, model_output, *args, **kwargs):
+        output = torch.nn.functional.softmax(model_output["scores"], dim=-1)[:, 1]
+        expected = sample_list["targets"]
+
+        if expected.dim() == 2:
+            expected = expected.argmax(dim=1)
+
+        value = mean_absolute_error(expected.cpu(), output.cpu())
+
+        return expected.new_tensor(value, dtype=torch.float) 
+
+        
+@registry.register_metric("precision_macro")  
+class PrecisionMacro(BaseMetric):
+    def __init__(self, p_threshold, *args, **kwargs):
+        super().__init__(name="precision_macro")
+        self.name = "precision_macro"
+        
+    def calculate(self, sample_list, model_output, *args, **kwargs):
+        output = torch.nn.functional.softmax(model_output["scores"], dim=-1)[:, 1]
+        expected = sample_list["targets"]
+
+        if expected.dim() == 2:
+            expected = expected.argmax(dim=1)
+
+        value = precision_score(expected.cpu(), output.cpu(),average='macro')
+
+        return expected.new_tensor(value, dtype=torch.float)
+
+
+
+@registry.register_metric("recall_macro")
+class RecallMacro(BaseMetric):
+    def __init__(self, p_threshold, *args, **kwargs):
+        super().__init__(name="recall_macro")
+        self.name = "recall_macro"
+        
+    def calculate(self, sample_list, model_output, *args, **kwargs):
+        output = torch.nn.functional.softmax(model_output["scores"], dim=-1)[:, 1]
+        expected = sample_list["targets"]
+
+        # One hot format -> Labels
+        if expected.dim() == 2:
+            expected = expected.argmax(dim=1)
+
+        value = recall_score(expected.cpu(), output.cpu(),average='macro')
 
         return expected.new_tensor(value, dtype=torch.float)

@@ -1,9 +1,9 @@
 model_config:
   vilbert:
     training_head_type: classification
-    num_labels: 3
+    num_labels: 4
     losses:
-    - mean_squared_error
+    - logit_bce
 
 dataset_config:
   memes:
@@ -33,19 +33,16 @@ scheduler:
 
 evaluation:
   metrics:
-    - accuracy
-    - macro_f1
-    - recall_macro
-    - precision_macro
-    - mae
+  - multilabel_micro_f1
+  - multilabel_macro_f1
 
 training:
-  batch_size: 16
+  batch_size: 32
   lr_scheduler: true
-  max_updates: 3000
+  max_updates: 22000
   find_unused_parameters: true
   early_stop:
-    criteria: memes/macro_f1
+    criteria: memes/multilabel_micro_f1
     minimize: false
 
 checkpoint:
