@@ -581,5 +581,5 @@ class MSE(nn.Module):
 
     def forward(self, sample_list, model_output):
         targets = sample_list.targets
-        loss = F.mse_loss(model_output["scores"], sample_list.targets)
+        loss = loss_fn(model_output["scores"], sample_list.targets)
         return loss * targets.size(1)

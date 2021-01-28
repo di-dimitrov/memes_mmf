@@ -1059,7 +1059,10 @@ class PrecisionMacro(BaseMetric):
 
         if expected.dim() == 2:
             expected = expected.argmax(dim=1)
-
+        output = model_output["scores"].argmax(dim=-1)
+        if expected.dim() != 1:
+            # Probably one-hot, convert back to class indices array
+            expected = expected.argmax(dim=-1)
         value = precision_score(expected.cpu(), output.cpu(),average='macro')
 
         return expected.new_tensor(value, dtype=torch.float)
@@ -1079,7 +1082,10 @@ class RecallMacro(BaseMetric):
         # One hot format -> Labels
         if expected.dim() == 2:
             expected = expected.argmax(dim=1)
-
+        output = model_output["scores"].argmax(dim=-1)
+        if expected.dim() != 1:
+            # Probably one-hot, convert back to class indices array
+            expected = expected.argmax(dim=-1)
         value = recall_score(expected.cpu(), output.cpu(),average='macro')
 
         return expected.new_tensor(value, dtype=torch.float)
