@@ -1056,8 +1056,8 @@ class MMAEMacro(BaseMetric):
             expected = expected.argmax(dim=-1)
         
         for i in range(len(expected)):
-            dist_dict[expected[i]] = abs(expected[i] - output[i])
-            count_dict[expected[i]] += 1
+            dist_dict[expected[i].item()] = abs(expected[i].item() - output[i])
+            count_dict[expected[i].item()] += 1
         overall = 0.0
         for claz in ['0','1','2','3']:
             class_dist =  1.0 * dist_dict[claz] / count_dict[claz]
@@ -1094,8 +1094,8 @@ class MMAEMacro(BaseMetric):
             expected = expected.argmax(dim=-1)
                 
         for i in range(len(expected)):
-            dist_dict[expected[i]] = abs(expected[i] - output[i])
-            count_dict[expected[i]] += 1
+            dist_dict[expected[i].item()] = abs(expected[i].item() - output[i])
+            count_dict[expected[i].item()] += 1
         overall = 0.0
         for claz in ['0','1','2']:
             class_dist =  1.0 * dist_dict[claz] / count_dict[claz]

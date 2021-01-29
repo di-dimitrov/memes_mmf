@@ -7,18 +7,18 @@ dataset_config:
     use_features : false
     images:
       train:
-      - memes_tgt/defaults/images/
+      - memes/defaults/images/
       test:
-      - memes_tgt/defaults/images/
+      - memes/defaults/images/
       val:
-      - memes_tgt/defaults/images/
+      - memes/defaults/images/
     features:
       train:
-      - memes_tgt/defaults/features/detectron.lmdb
+      - memes/defaults/features/detectron.lmdb
       test:
-      - memes_tgt/defaults/features/detectron.lmdb
+      - memes/defaults/features/detectron.lmdb
       val: 
-      - memes_tgt/defaults/features/detectron.lmdb
+      - memes/defaults/features/detectron.lmdb
     annotations:
       train:
       - memes_tgt/defaults/annotations/train.jsonl
