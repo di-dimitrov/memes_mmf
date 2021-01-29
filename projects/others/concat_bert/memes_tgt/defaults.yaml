@@ -38,7 +38,7 @@ training:
   lr_scheduler: true
   max_updates: 3000
   early_stop:
-    criteria: mmae_tgt/macro_f1
+    criteria: memes_tgt/macro_f1
     minimize: false
 
 checkpoint:
