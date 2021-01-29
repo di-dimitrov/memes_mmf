@@ -8,13 +8,13 @@ model_config:
       type: mlp
       params:
         num_layers: 2
-        output_dim: 3
+        out_dim: 3
 
     text_classifier:
       type: mlp
       params:
         num_layers: 2
-        output_dim: 3
+        out_dim: 3
     losses:
     - type: cross_entropy
 
