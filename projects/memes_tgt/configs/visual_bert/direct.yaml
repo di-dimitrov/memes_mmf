@@ -1,1 +1,5 @@
-../../../visual_bert/configs/memes/direct.yaml
+includes:
+- ./defaults.yaml
+
+training:
+  batch_size: 16

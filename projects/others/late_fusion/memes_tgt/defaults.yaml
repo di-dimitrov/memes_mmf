@@ -7,14 +7,14 @@ model_config:
       type: mlp
       params:
         num_layers: 2
-        output_dim: 4
+        out_dim: 4
     text_classifier:
       type: mlp
       params:
         num_layers: 2
-        output_dim: 4
+        out_dim: 4
     losses:
-    - type: mean_squared_error
+    - type: cross_entropy
 
 scheduler:
   type: warmup_linear

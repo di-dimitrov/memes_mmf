@@ -8,7 +8,7 @@ model_config:
       type: mlp
       params:
         num_layers: 2
-        output_dim: 4
+        out_dim: 4
     losses:
     - type: cross_entropy
 
@@ -38,7 +38,7 @@ training:
   lr_scheduler: true
   max_updates: 3000
   early_stop:
-    criteria: memes_gtg/macro_f1
+    criteria: mmae_tgt/macro_f1
     minimize: false
 
 checkpoint:

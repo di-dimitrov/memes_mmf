@@ -1,1 +1,6 @@
-../../../visual_bert/configs/memes/from_coco.yaml
+includes:
+- ./defaults.yaml
+
+checkpoint:
+  resume_pretrained: true
+  resume_zoo: visual_bert.pretrained.coco
