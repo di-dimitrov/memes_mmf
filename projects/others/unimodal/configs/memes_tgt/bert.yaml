@@ -11,6 +11,7 @@ model_config:
       params:
         in_dim: 768
         num_layers: 2
+        out_dim: 4
 
 training:
   batch_size: 16
