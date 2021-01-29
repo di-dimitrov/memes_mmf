@@ -1056,7 +1056,7 @@ class MMAEMacro(BaseMetric):
             expected = expected.argmax(dim=-1)
         
         for i in range(len(expected)):
-            dist_dict[expected[i].item()] = abs(expected[i].item() - output[i])
+            dist_dict[expected[i].item()] += abs(expected[i].item() - output[i])
             count_dict[expected[i].item()] += 1
         overall = 0.0
         for claz in [0,1,2,3]:
@@ -1094,13 +1094,14 @@ class MMAEMacro(BaseMetric):
             expected = expected.argmax(dim=-1)
                 
         for i in range(len(expected)):
-            dist_dict[expected[i].item()] = abs(expected[i].item() - output[i])
+            dist_dict[expected[i].item()] += abs(expected[i].item() - output[i])
             count_dict[expected[i].item()] += 1
         overall = 0.0
         for claz in [0,1,2]:
-            class_dist =  1.0 * dist_dict[claz] / count_dict[claz]
+            class_dist =  1.0 * dist_dict[claz] / count_dict[claz] #probably wrong division
             overall += class_dist
         overall /= 3
+        
         return expected.new_tensor(overall, dtype=torch.float) 
 
 
