@@ -49,7 +49,7 @@ training:
   max_updates: 18000
   find_unused_parameters: true
   early_stop:
-    criteria: memes_tgt/binary_f1
+    criteria: memes_tgt/macro_f1
     minimize: false
 
 checkpoint:
