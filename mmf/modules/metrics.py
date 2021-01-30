@@ -1080,10 +1080,10 @@ class MMAEMacro(BaseMetric):
         dist_dict = {}
         count_dict[0] = 0
         count_dict[1] = 0
-        count_dict[2] = 0
+        #count_dict[2] = 0
         dist_dict[0] = 0.0
         dist_dict[1] = 0.0
-        dist_dict[2] = 0.0
+        #dist_dict[2] = 0.0
         
 
         if expected.dim() == 2:
@@ -1097,10 +1097,10 @@ class MMAEMacro(BaseMetric):
             dist_dict[expected[i].item()] += abs(expected[i].item() - output[i])
             count_dict[expected[i].item()] += 1
         overall = 0.0
-        for claz in [0,1,2]:
+        for claz in [0,1]: #,2
             class_dist =  1.0 * dist_dict[claz] / count_dict[claz] #probably wrong division
             overall += class_dist
-        overall /= 3
+        overall /= 2#3
         
         return expected.new_tensor(overall, dtype=torch.float) 
 

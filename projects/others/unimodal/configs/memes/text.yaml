@@ -1,6 +1,5 @@
 model_config:
   unimodal_text:
-    num_labels: 2
     classifier:
       type: mlp
       params:
