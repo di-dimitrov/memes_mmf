@@ -3,12 +3,12 @@ includes:
 
 model_config:
   concat_bert:
-    num_labels: 3
+    num_labels: 2
     classifier:
       type: mlp
       params:
         num_layers: 2
-        out_dim: 3
+        out_dim: 2
     losses:
     - type: cross_entropy
 
@@ -36,7 +36,7 @@ evaluation:
 training:
   batch_size: 16
   lr_scheduler: true
-  max_updates: 1000
+  max_updates: 3000
   early_stop:
     criteria: memes/macro_f1
     minimize: false
