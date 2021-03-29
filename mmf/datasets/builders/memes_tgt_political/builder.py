@@ -19,7 +19,7 @@ from mmf.utils.general import get_mmf_root
 logger = logging.getLogger(__name__)
 
 @registry.register_builder("memes_tgt_political")
-class MemesTgtBuilder(MMFDatasetBuilder):
+class MemesPoliticalTgtBuilder(MMFDatasetBuilder):
         # Init should call super().__init__ with the key for the dataset
     def __init__(
         self,

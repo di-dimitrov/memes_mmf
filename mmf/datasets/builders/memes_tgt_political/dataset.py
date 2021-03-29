@@ -14,7 +14,6 @@ from mmf.utils.general import get_mmf_root
 from mmf.utils.text import VocabFromText, tokenize
 
 
-
 class MemesPoliticalTgtFeatureDataset(MMFDataset):
     def __init__(self, config, *args, dataset_name="memes_tgt_political", **kwargs):
         super().__init__(dataset_name, config, *args, **kwargs)
