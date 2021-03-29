@@ -37,7 +37,7 @@ dataset_config:
           vocab:
             type: intersected
             embedding_name: glove.6B.300d
-            vocab_file: memes/defaults/extras/vocabs/vocabulary_100k.txt
+            vocab_file: political/data/datasets/memes/defaults/extras/vocabs/vocabulary_100k.txt
           preprocessor:
             type: simple_sentence
             params: {}
