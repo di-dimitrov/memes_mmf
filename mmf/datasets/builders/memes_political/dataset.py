@@ -44,7 +44,7 @@ class MemesPoliticalFeatureDataset(MMFDataset):
         if "input_ids" in processed_text:
             current_sample.update(processed_text)
         
-        id = int(sample_info['id'].split("covid_memes_")[1])
+        id = int(sample_info['id'].split("memes_")[1])
         current_sample.id = torch.tensor(id, dtype=torch.int)
         
         features = self.features_db.get(sample_info)
