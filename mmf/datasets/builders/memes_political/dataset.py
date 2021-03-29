@@ -61,7 +61,7 @@ class MemesPoliticalFeatureDataset(MMFDataset):
             label = torch.tensor(1, dtype=torch.long)
         else:
             label = torch.tensor(2, dtype=torch.long)
- 
+        current_sample.targets = label
         #current_sample.image = self.image_db[idx]["images"][0]
 
         return current_sample

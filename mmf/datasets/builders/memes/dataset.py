@@ -56,7 +56,7 @@ class MemesFeatureDataset(MMFDataset):
                 features["image_info_0"]
             )
         current_sample.update(features)
-
+        
         
         if sample_info['labels'][0] == 'not harmful':
             label = torch.tensor(0, dtype=torch.long)
@@ -64,7 +64,7 @@ class MemesFeatureDataset(MMFDataset):
             label = torch.tensor(1, dtype=torch.long)
         else:
             label = torch.tensor(2, dtype=torch.long)
- 
+        current_sample.targets = label
         #current_sample.image = self.image_db[idx]["images"][0]
 
         return current_sample
