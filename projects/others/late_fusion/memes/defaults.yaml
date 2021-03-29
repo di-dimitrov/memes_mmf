@@ -3,17 +3,17 @@ includes:
 
 model_config:
   late_fusion:
-    num_labels: 2
+    num_labels: 3
     modal_classifier:
       type: mlp
       params:
         num_layers: 2
-
+        out_dim: 3
     text_classifier:
       type: mlp
       params:
         num_layers: 2
-        out_dim: 2
+        out_dim: 3
     losses:
     - type: cross_entropy
 

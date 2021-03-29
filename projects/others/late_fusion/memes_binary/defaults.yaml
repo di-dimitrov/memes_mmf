@@ -1,10 +1,19 @@
+includes:
+- configs/datasets/memes_binary/bert.yaml
+
 model_config:
-  unimodal_text:
-    num_labels: 3
-    classifier:
+  late_fusion:
+    num_labels: 2
+    modal_classifier:
       type: mlp
       params:
         num_layers: 2
+
+    text_classifier:
+      type: mlp
+      params:
+        num_layers: 2
+        out_dim: 2
     losses:
     - type: cross_entropy
 
@@ -34,7 +43,7 @@ training:
   lr_scheduler: true
   max_updates: 3000
   early_stop:
-    criteria: memes/macro_f1
+    criteria: memes_binary/macro_f1
     minimize: false
 
 checkpoint:

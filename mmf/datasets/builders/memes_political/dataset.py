@@ -14,8 +14,8 @@ from mmf.utils.general import get_mmf_root
 from mmf.utils.text import VocabFromText, tokenize
 
 
-class MemesFeatureDataset(MMFDataset):
-    def __init__(self, config, *args, dataset_name="memes", **kwargs):
+class MemesPoliticalFeatureDataset(MMFDataset):
+    def __init__(self, config, *args, dataset_name="memes_political", **kwargs):
         super().__init__(dataset_name, config, *args, **kwargs)
         print(config)
         assert (
@@ -43,11 +43,8 @@ class MemesFeatureDataset(MMFDataset):
         
         if "input_ids" in processed_text:
             current_sample.update(processed_text)
-            
-        if "covid_memes" in sample_info['id']:
-            id = int(sample_info['id'].split("covid_memes_")[1]) + 10000
-        else:
-            id = int(sample_info['id'].split("covid_memes_")[1])
+        
+        id = int(sample_info['id'].split("covid_memes_")[1])
         current_sample.id = torch.tensor(id, dtype=torch.int)
         
         features = self.features_db.get(sample_info)
@@ -69,8 +66,8 @@ class MemesFeatureDataset(MMFDataset):
 
         return current_sample
         
-class MemesDataset(MMFDataset):
-    def __init__(self, config, *args, dataset_name="memes", **kwargs):
+class MemesPoliticalDataset(MMFDataset):
+    def __init__(self, config, *args, dataset_name="memes_political", **kwargs):
         super().__init__(dataset_name, config, *args, **kwargs)
         print(config)
         assert (
@@ -97,10 +94,8 @@ class MemesDataset(MMFDataset):
         if "input_ids" in processed_text:
             current_sample.update(processed_text)
             
-        if "covid_memes" in sample_info['id']:
-            id = int(sample_info['id'].split("covid_memes_")[1]) + 10000
-        else:
-            id = int(sample_info['id'].split("memes_")[1])
+      
+        id = int(sample_info['id'].split("memes_")[1])
         current_sample.id = torch.tensor(id, dtype=torch.int)
 
         if sample_info['labels'][0] == 'not harmful':

@@ -3,12 +3,12 @@ includes:
 
 model_config:
   concat_bert:
-    num_labels: 2
+    num_labels: 3
     classifier:
       type: mlp
       params:
         num_layers: 2
-        out_dim: 2
+        out_dim: 3
     losses:
     - type: cross_entropy
 

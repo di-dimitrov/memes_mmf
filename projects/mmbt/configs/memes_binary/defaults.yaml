@@ -1,12 +1,6 @@
-model_config:
-  unimodal_text:
-    num_labels: 3
-    classifier:
-      type: mlp
-      params:
-        num_layers: 2
-    losses:
-    - type: cross_entropy
+includes:
+- ./classification.yaml
+- configs/datasets/memes_binary/bert.yaml
 
 scheduler:
   type: warmup_linear
@@ -17,26 +11,25 @@ scheduler:
 optimizer:
   type: adam_w
   params:
-    lr: 5e-5
+    lr: 1e-5
     eps: 1e-8
 
 evaluation:
-  metrics:
+    metrics:
     - accuracy
     - macro_f1
     - recall_macro
     - precision_macro
     - mae
     - mmae
-
 training:
   batch_size: 16
   lr_scheduler: true
   max_updates: 3000
   early_stop:
-    criteria: memes/macro_f1
+    criteria: memes_binary/macro_f1
     minimize: false
 
 checkpoint:
   pretrained_state_mapping:
-    base: base
+    bert: bert

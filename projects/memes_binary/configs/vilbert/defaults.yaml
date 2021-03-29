@@ -1,15 +1,15 @@
 includes:
-- configs/datasets/memes/with_features.yaml
+- configs/datasets/memes_binary/with_features.yaml
 
 model_config:
-  visual_bert:
+  vilbert:
     training_head_type: classification
-    num_labels: 3
+    num_labels: 2
     losses:
     - cross_entropy
 
 dataset_config:
-  memes:
+  memes_binary:
     return_features_info: true
     processors:
       text_processor:
@@ -21,11 +21,17 @@ dataset_config:
               do_lower_case: true
           mask_probability: 0
           max_seq_length: 128
-
+      transformer_bbox_processor:
+        type: transformer_bbox
+        params:
+          bbox_key: bbox
+          image_width_key: image_width
+          image_height_key: image_height
+          
 optimizer:
   type: adam_w
   params:
-    lr: 5e-5
+    lr: 1e-5
     eps: 1e-8
 
 scheduler:
@@ -49,7 +55,7 @@ training:
   max_updates: 3000
   find_unused_parameters: true
   early_stop:
-    criteria: memes/macro_f1
+    criteria: memes_binary/macro_f1
     minimize: false
 
 checkpoint:

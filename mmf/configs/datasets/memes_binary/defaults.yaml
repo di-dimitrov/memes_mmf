@@ -1,8 +1,10 @@
 dataset_config:
-  memes_tgt:
+  memes_binary:
     data_dir: ${env.data_dir}/datasets
     depth_first: false
     fast_read: false
+    use_binary: true
+    use_non_binary: false
     use_images: true
     use_features : false
     images:
@@ -21,11 +23,11 @@ dataset_config:
       - memes/defaults/features/detectron.lmdb
     annotations:
       train:
-      - memes_tgt/defaults/annotations/target_train.jsonl
+      - memes/defaults/annotations/train.jsonl
       test:
-      - memes_tgt/defaults/annotations/target_test.jsonl
+      - memes/defaults/annotations/test.jsonl
       val:
-      - memes_tgt/defaults/annotations/target_val.jsonl
+      - memes/defaults/annotations/val.jsonl
     max_features: 100
     processors:
       text_processor:
@@ -35,7 +37,7 @@ dataset_config:
           vocab:
             type: intersected
             embedding_name: glove.6B.300d
-            vocab_file: memes_tgt/defaults/extras/vocabs/vocabulary_100k.txt
+            vocab_file: memes/defaults/extras/vocabs/vocabulary_100k.txt
           preprocessor:
             type: simple_sentence
             params: {}

@@ -1,15 +1,15 @@
 includes:
-- configs/datasets/memes/with_features.yaml
+- configs/datasets/memes_binary/with_features.yaml
 
 model_config:
   visual_bert:
     training_head_type: classification
-    num_labels: 3
+    num_labels: 2
     losses:
     - cross_entropy
 
 dataset_config:
-  memes:
+  memes_binary:
     return_features_info: true
     processors:
       text_processor:
@@ -49,7 +49,7 @@ training:
   max_updates: 3000
   find_unused_parameters: true
   early_stop:
-    criteria: memes/macro_f1
+    criteria: memes_binary/macro_f1
     minimize: false
 
 checkpoint:
