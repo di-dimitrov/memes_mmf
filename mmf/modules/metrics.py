@@ -45,6 +45,7 @@ Example config for above metric::
 """
 
 import collections
+import json
 
 import torch
 from mmf.common.registry import registry
