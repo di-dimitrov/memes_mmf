@@ -60,7 +60,6 @@ class TrainerEvaluationLoopMixin(ABC):
                 dataloader = reporter.get_dataloader()
 
                 for batch in tqdm.tqdm(dataloader):
-                    print(batch)
                     prepared_batch = reporter.prepare_batch(batch)
                     prepared_batch = to_device(prepared_batch, torch.device("cuda"))
                     with torch.cuda.amp.autocast(enabled=self.training_config.fp16):
