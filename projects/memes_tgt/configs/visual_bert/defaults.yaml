@@ -46,7 +46,7 @@ evaluation:
 training:
   batch_size: 16
   lr_scheduler: true
-  max_updates: 4000
+  max_updates: 2100
   find_unused_parameters: true
   early_stop:
     criteria: memes_tgt/macro_f1
