@@ -57,7 +57,7 @@ class TrainerEvaluationLoopMixin(ABC):
         dictt['model_output'] = []
         dictt['prepared_batch'] = []
         dictt['report'] = []
-        dictt['reporter'] = ''
+        #dictt['reporter'] = ''
         
         newfile = open('/content/results_{}.txt'.format(dataset_type),'w')
         with torch.no_grad():
@@ -70,16 +70,16 @@ class TrainerEvaluationLoopMixin(ABC):
                 for batch in tqdm.tqdm(dataloader):
                     prepared_batch = reporter.prepare_batch(batch)
                     prepared_batch = to_device(prepared_batch, torch.device("cuda"))
-                    model_output = {}
+                    #model_output = {}
                     with torch.cuda.amp.autocast(enabled=self.training_config.fp16):
                         model_output = self.model(prepared_batch)
-                    dictt['model_output'].append(list(model_output.items()))
+                    dictt['model_output'].append(model_output.tolist())
                     dictt['prepared_batch'].append(prepared_batch)
                     report = Report(prepared_batch, model_output)
                     dictt['report'].append(report)
                    
                     reporter.add_to_report(report, self.model)
-            dictt['reporter'] = reporter
+            #dictt['reporter'] = reporter
             newfile.write(json.dumps(dictt))
             logger.info("Finished predicting")
             self.model.train()
