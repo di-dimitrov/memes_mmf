@@ -80,5 +80,6 @@ class TrainerEvaluationLoopMixin(ABC):
                    
                     reporter.add_to_report(report, self.model)
             dictt['reporter'] = reporter
+            newfile.write(json.dumps(dictt))
             logger.info("Finished predicting")
             self.model.train()
