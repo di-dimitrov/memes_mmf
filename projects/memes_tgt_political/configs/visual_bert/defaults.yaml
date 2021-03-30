@@ -1,5 +1,5 @@
 includes:
-- configs/datasets/memes_tgt/with_features.yaml
+- configs/datasets/memes_tgt_political/with_features.yaml
 
 model_config:
   visual_bert:
