@@ -4,6 +4,7 @@ import logging
 from abc import ABC
 from typing import Any, Dict, Tuple, Type
 
+import json
 import torch
 import tqdm
 from mmf.common.meter import Meter
@@ -52,6 +53,13 @@ class TrainerEvaluationLoopMixin(ABC):
 
     def prediction_loop(self, dataset_type: str) -> None:
         reporter = self.dataset_loader.get_test_reporter(dataset_type)
+        dictt = {}
+        dictt['model_output'] = []
+        dictt['prepared_batch'] = []
+        dictt['report'] = []
+        dictt['reporter'] = ''
+        
+        newfile = open('/content/results_{}.txt'.format(dataset_type),'w')
         with torch.no_grad():
             self.model.eval()
             logger.info(f"Starting {dataset_type} inference predictions")
@@ -65,10 +73,12 @@ class TrainerEvaluationLoopMixin(ABC):
                     model_output = {}
                     with torch.cuda.amp.autocast(enabled=self.training_config.fp16):
                         model_output = self.model(prepared_batch)
-                    print(model_output)
+                    dictt['model_output'].append(model_output)
+                    dictt['prepared_batch'].append(prepare_batch)
                     report = Report(prepared_batch, model_output)
+                    dictt['report'].append(report)
                    
                     reporter.add_to_report(report, self.model)
-
+            dictt['reporter'] = reporter
             logger.info("Finished predicting")
             self.model.train()
