@@ -73,7 +73,7 @@ class TrainerEvaluationLoopMixin(ABC):
                     model_output = {}
                     with torch.cuda.amp.autocast(enabled=self.training_config.fp16):
                         model_output = self.model(prepared_batch)
-                    dictt['model_output'].append(model_output.items())
+                    dictt['model_output'].append(list(model_output.items()))
                     dictt['prepared_batch'].append(prepared_batch)
                     report = Report(prepared_batch, model_output)
                     dictt['report'].append(report)
