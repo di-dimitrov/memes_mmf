@@ -47,7 +47,7 @@ class MemesBinaryFeatureDataset(MMFDataset):
         if "covid_memes" in sample_info['id']:
             id = int(sample_info['id'].split("covid_memes_")[1]) + 10000
         else:
-            id = int(sample_info['id'].split("covid_memes_")[1])
+            id = int(sample_info['id'].split("memes_")[1])
         current_sample.id = torch.tensor(id, dtype=torch.int)
         
         features = self.features_db.get(sample_info)
