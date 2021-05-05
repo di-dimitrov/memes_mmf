@@ -1,4 +1,4 @@
 dataset_config:
-  memes:
+  memes_binary:
     use_images: false
     use_features : true
