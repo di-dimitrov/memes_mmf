@@ -1117,7 +1117,7 @@ class MMAEMacro(BaseMetric):
         return expected.new_tensor(overall, dtype=torch.float) 
     
     
-@registry.register_metric("mmae")
+@registry.register_metric("mmae_binary")
 class MMAEMacro(BaseMetric):
     def __init__(self, *args, **kwargs):
         super().__init__(name="mmae")
