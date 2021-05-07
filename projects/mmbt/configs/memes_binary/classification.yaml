@@ -3,4 +3,4 @@ model_config:
     training_head_type: classification
     num_labels: 2
     losses:
-    - type: bce
+    - type: cross_entropy
