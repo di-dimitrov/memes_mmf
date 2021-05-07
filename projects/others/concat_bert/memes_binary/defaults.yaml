@@ -36,7 +36,7 @@ evaluation:
 training:
   batch_size: 32
   lr_scheduler: true
-  max_updates: 3000
+  max_updates: 2200
   early_stop:
     criteria: memes_binary/macro_f1
     minimize: false
