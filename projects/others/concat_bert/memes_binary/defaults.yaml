@@ -34,7 +34,7 @@ evaluation:
     - mmae
     
 training:
-  batch_size: 16
+  batch_size: 32
   lr_scheduler: true
   max_updates: 3000
   early_stop:
