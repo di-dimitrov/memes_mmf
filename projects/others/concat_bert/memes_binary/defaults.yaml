@@ -31,7 +31,7 @@ evaluation:
     - recall_macro
     - precision_macro
     - mae
-    - mmae
+    - mmae_binary
     
 training:
   batch_size: 32
