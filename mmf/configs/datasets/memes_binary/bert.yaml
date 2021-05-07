@@ -1,5 +1,5 @@
 dataset_config:
-  memes:
+  memes_binary:
     processors:
       text_processor:
         type: bert_tokenizer
