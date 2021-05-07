@@ -6,7 +6,7 @@ model_config:
     training_head_type: classification
     num_labels: 2
     losses:
-    - cross_entropy
+    - bce
 
 dataset_config:
   memes_binary:
