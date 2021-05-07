@@ -14,4 +14,4 @@ model_config:
         out_dim: 2
 
 training:
-  batch_size: 16
+  batch_size: 32
