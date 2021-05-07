@@ -15,7 +15,7 @@ model_config:
         num_layers: 2
         out_dim: 2
     losses:
-    - type: bce
+    - type: cross_entropy
 
 scheduler:
   type: warmup_linear
