@@ -6,7 +6,7 @@ model_config:
       params:
         num_layers: 2
     losses:
-    - type: cross_entropy
+    - type: bce
 
 scheduler:
   type: warmup_linear
