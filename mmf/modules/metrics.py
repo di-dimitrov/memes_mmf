@@ -1115,6 +1115,43 @@ class MMAEMacro(BaseMetric):
         overall /= 3#3
         
         return expected.new_tensor(overall, dtype=torch.float) 
+    
+    
+@registry.register_metric("mmae")
+class MMAEMacro(BaseMetric):
+    def __init__(self, *args, **kwargs):
+        super().__init__(name="mmae")
+        self.name = "mmae"
+        
+    def calculate(self, sample_list, model_output, *args, **kwargs):
+        #output = torch.nn.functional.softmax(model_output["scores"], dim=-1)[:, 1]
+        scores = model_output["scores"]
+        expected = sample_list["targets"]
+        count_dict = {}
+        dist_dict = {}
+        count_dict[0] = 0
+        count_dict[1] = 0
+        dist_dict[0] = 0.0
+        dist_dict[1] = 0.0
+        
+
+        if expected.dim() == 2:
+            expected = expected.argmax(dim=1)
+        output = scores.argmax(dim=-1)
+        if expected.dim() != 1:
+            # Probably one-hot, convert back to class indices array
+            expected = expected.argmax(dim=-1)
+                
+        for i in range(len(expected)):
+            dist_dict[expected[i].item()] += abs(expected[i].item() - output[i])
+            count_dict[expected[i].item()] += 1
+        overall = 0.0
+        for claz in [0,1]: 
+            class_dist =  1.0 * dist_dict[claz] / count_dict[claz] 
+            overall += class_dist
+        overall /= 2
+        
+        return expected.new_tensor(overall, dtype=torch.float) 
 
 
 @registry.register_metric("mae")
