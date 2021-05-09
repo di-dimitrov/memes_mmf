@@ -55,7 +55,7 @@ training:
   max_updates: 2200
   find_unused_parameters: true
   early_stop:
-    criteria: memes/macro_f1
+    criteria: memes_political/macro_f1
     minimize: false
 
 checkpoint:
