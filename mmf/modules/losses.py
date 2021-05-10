@@ -585,37 +585,37 @@ class MSE(nn.Module):
         loss = self.loss_fn(model_output["scores"], sample_list.targets)
         return loss * targets.size(1)
         
-@registry.register_loss("focal_loss")
-class FocalLoss(nn.Module):
-    def __init__(self, params=None):
-        super().__init__()
-        if params is None:
-            params = {}
-        self.loss_fn = FocalLoss(alpha=0.9, gamma=2)
-
-    def forward(self, sample_list, model_output):
-        return self.loss_fn(model_output["scores"], sample_list.targets)
-
-class FocalLoss2(nn.modules.loss._WeightedLoss):
-    def __init__(self, weight=None, gamma=2,reduction='mean'):
-        super(FocalLoss, self).__init__(weight,reduction=reduction)
-        self.gamma = gamma
-        self.weight = weight #weight parameter will act as the alpha parameter to balance class weights
-
-    def forward(self, input, target):
-
-        ce_loss = F.cross_entropy(input, target,reduction=self.reduction,weight=self.weight)
-        pt = torch.exp(-ce_loss)
-        focal_loss = ((1 - pt) ** self.gamma * ce_loss).mean()
-        return focal_loss
- 
-@registry.register_loss("focal_loss_v2")
-class FocalLossV2(nn.Module):
-    def __init__(self, params=None):
-        super().__init__()
-        if params is None:
-            params = {}
-        self.loss_fn = FocalLoss2(weight=0.9, gamma=2)
-
-    def forward(self, sample_list, model_output):
-        return self.loss_fn(model_output["scores"], sample_list.targets)
+#@registry.register_loss("focal_loss")
+#class FocalLoss(nn.Module):
+#    def __init__(self, params=None):
+#        super().__init__()
+#        if params is None:
+#            params = {}
+#        self.loss_fn = FocalLoss(alpha=0.9, gamma=2)
+#
+#    def forward(self, sample_list, model_output):
+#        return self.loss_fn(model_output["scores"], sample_list.targets)
+#
+#class FocalLoss2(nn.modules.loss._WeightedLoss):
+#    def __init__(self, weight=None, gamma=2,reduction='mean'):
+#        super(FocalLoss, self).__init__(weight,reduction=reduction)
+#        self.gamma = gamma
+#        self.weight = weight #weight parameter will act as the alpha parameter to balance class weights
+#
+#    def forward(self, input, target):
+#
+#        ce_loss = F.cross_entropy(input, target,reduction=self.reduction,weight=self.weight)
+#        pt = torch.exp(-ce_loss)
+#        focal_loss = ((1 - pt) ** self.gamma * ce_loss).mean()
+#        return focal_loss
+# 
+#@registry.register_loss("focal_loss_v2")
+#class FocalLossV2(nn.Module):
+#    def __init__(self, params=None):
+#        super().__init__()
+#        if params is None:
+#            params = {}
+#        self.loss_fn = FocalLoss2(weight=0.9, gamma=2)
+#
+#    def forward(self, sample_list, model_output):
+#        return self.loss_fn(model_output["scores"], sample_list.targets)
