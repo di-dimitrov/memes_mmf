@@ -586,7 +586,7 @@ class MSE(nn.Module):
         return loss * targets.size(1)
         
 @registry.register_loss("focal_loss")
-class FocalLoss(nn.Module):
+class FocalLosss(nn.Module):
     def __init__(self, params=None):
         super().__init__()
         if params is None:
@@ -598,7 +598,7 @@ class FocalLoss(nn.Module):
 
 class FocalLoss2(nn.modules.loss._WeightedLoss):
     def __init__(self, weight=None, gamma=2,reduction='mean'):
-        super(FocalLoss, self).__init__(weight,reduction=reduction)
+        super(FocalLoss2, self).__init__(weight,reduction=reduction)
         self.gamma = gamma
         self.weight = weight #weight parameter will act as the alpha parameter to balance class weights
 
