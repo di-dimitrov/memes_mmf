@@ -10,8 +10,8 @@ from mmf.common.registry import registry
 from mmf.datasets.base_dataset_builder import BaseDatasetBuilder
 from mmf.datasets.mmf_dataset_builder import MMFDatasetBuilder
 from mmf.datasets.builders.memes_binary.dataset import (
-MemesBinaryFeatureDataset,
-MemesBinaryDataset,
+MemesBinaryPolFeatureDataset,
+MemesBinaryPolDataset,
 )
 
 from mmf.utils.general import get_mmf_root
