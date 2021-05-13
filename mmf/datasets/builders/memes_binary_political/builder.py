@@ -29,7 +29,7 @@ class MemesBuilder(MMFDatasetBuilder):
         **kwargs
         ):
             super().__init__(dataset_name, dataset_class, *args, **kwargs)
-            self.dataset_class = MemesBinaryDataset
+            self.dataset_class = MemesBinaryPolDataset
 
     def build(self, config,*args, **kwargs):
         self.data_folder = os.path.join(
