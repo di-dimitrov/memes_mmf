@@ -1,0 +1,4 @@
+dataset_config:
+  memes_binary_political:
+    use_images: false
+    use_features : true

@@ -1,6 +1,6 @@
 includes:
 - ./classification.yaml
-- configs/datasets/memes_binary/bert.yaml
+- configs/datasets/memes_political/bert.yaml
 
 scheduler:
   type: warmup_linear
@@ -21,13 +21,13 @@ evaluation:
     - recall_macro
     - precision_macro
     - mae
-    - mmae_binary
+    - mmae
 training:
   batch_size: 16
   lr_scheduler: true
-  max_updates: 2200
+  max_updates: 3200
   early_stop:
-    criteria: memes_binary/macro_f1
+    criteria: memes_political/macro_f1
     minimize: false
 
 checkpoint:

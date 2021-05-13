@@ -9,25 +9,25 @@ dataset_config:
     use_features : false
     images:
       train:
-      - political/data/datasets/memes/defaults/images/
+      - memes/defaults/images/
       test:
-      - political/data/datasets/memes/defaults/images/
+      - memes/defaults/images/
       val:
-      - political/data/datasets/memes/defaults/images/
+      - memes/defaults/images/
     features:
       train:
-      - political/data/datasets/memes/defaults/features/detectron.lmdb
+      - memes/defaults/features/detectron.lmdb
       test:
-      - political/data/datasets/memes/defaults/features/detectron.lmdb
+      - memes/defaults/features/detectron.lmdb
       val: 
-      - political/data/datasets/memes/defaults/features/detectron.lmdb
+      - memes/defaults/features/detectron.lmdb
     annotations:
       train:
-      - political/data/datasets/memes/defaults/annotations/train.jsonl
+      - memes/defaults/annotations/train.jsonl
       test:
-      - political/data/datasets/memes/defaults/annotations/test.jsonl
+      - memes/defaults/annotations/test.jsonl
       val:
-      - political/data/datasets/memes/defaults/annotations/val.jsonl
+      - memes/defaults/annotations/val.jsonl
     max_features: 100
     processors:
       text_processor:
